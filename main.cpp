@@ -1,5 +1,5 @@
 #include "application.h"
-#include "game.h"
+#include "demogame.h"
 
 int main()
 {
@@ -10,7 +10,7 @@ int main()
         return -1;
     }
 
-    Game game;
+    DemoGame game;
     game.init();
 
     application.setGame(&game);

@@ -7,11 +7,11 @@ class Game
 public:
     Game();
 
-    bool init();
-    void shutdown();
+    virtual bool init();
+    virtual void shutdown();
 
-    void update(double dt);
-    void render();
+    virtual void update(double dt);
+    virtual void render();
 
     void resize(int width, int height);
 

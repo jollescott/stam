@@ -10,6 +10,10 @@ add_subdirectory(3rdparty/glad)
 
 add_executable(stam main.cpp
                     application.cpp
-                    game.cpp)
+                    game.cpp
+                    demogame.cpp
+                    renderer.cpp
+                    geometry.cpp
+                    shader.cpp)
 
 target_link_libraries(stam SDL2main SDL2-static glad)
