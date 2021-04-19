@@ -7,6 +7,7 @@ public:
     Geometry();
 
     void init();
+    void prepare();
 
     int *indices() const;
     void setIndices(int *indices);
@@ -17,9 +18,6 @@ public:
     unsigned int vao() const;
 
 private:
-
-    void prepare();
-
     int* mIndices;
     float* mVertices;
 

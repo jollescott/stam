@@ -8,7 +8,10 @@ class Shader
 public:
     Shader();
 
-    static Shader* fromSource(std::string filename);
+    bool init();
+    void shutdown();
+
+    static bool fromSource(const char *filename, Shader *shader);
 
     int programId() const;
     void setProgramId(int programId);
