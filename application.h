@@ -1,6 +1,8 @@
 #ifndef APPLICATION_H
 #define APPLICATION_H
 
+#define SDL_MAIN_HANDLED
+
 #include <glad/glad.h>
 #include <SDL.h>
 
