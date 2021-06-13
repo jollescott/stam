@@ -6,18 +6,16 @@
 class Shader
 {
 public:
-    Shader();
+    Shader(std::string name);
 
     bool init();
     void shutdown();
-
-    static bool fromSource(const char *filename, Shader *shader);
 
     int programId() const;
     void setProgramId(int programId);
 
 private:
-
+    std::string mName;
     int mProgramId;
 };
 

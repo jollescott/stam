@@ -1,9 +1,10 @@
 #ifndef DEMOGAME_H
 #define DEMOGAME_H
 
-#include "game.h"
+#include <vector>
 
-#include "geometry.h"
+#include "game.h"
+#include "shader.h"
 
 class DemoGame : public Game
 {
@@ -15,10 +16,10 @@ public:
 
     void render() override;
 private:
-    Geometry* mGeometry;
+    unsigned int mVAO;
 
-    float* mVertices;
-    int* mIndices;
+    Shader* mShader;
+    std::vector<float> mVertices;
 };
 
 #endif // DEMOGAME_H

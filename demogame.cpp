@@ -9,50 +9,45 @@ DemoGame::DemoGame()
 
 bool DemoGame::init()
 {
-    mVertices = new float[18] {
-        // first triangle
-         0.5f,  0.5f, 0.0f,  // top right
-         0.5f, -0.5f, 0.0f,  // bottom right
-        -0.5f,  0.5f, 0.0f,  // top left
-        // second triangle
-         0.5f, -0.5f, 0.0f,  // bottom right
-        -0.5f, -0.5f, 0.0f,  // bottom left
-        -0.5f,  0.5f, 0.0f   // top left
+    mVertices = std::vector<float> {
+            -0.5f, -0.5f, 0.0f,
+             0.5f, -0.5f, 0.0f,
+             0.0f,  0.5f, 0.0f
     };
 
-    mIndices = new int[6] {
-        0, 1, 3,
-        1, 2, 3
-    };
+    unsigned int vbo;
+    glGenBuffers(1, &vbo);
 
-    mGeometry = new Geometry();
-    mGeometry->init();
+    glGenVertexArrays(1, &mVAO);
+    glBindVertexArray(mVAO);
 
-    mGeometry->setVertices(mVertices);
-    mGeometry->setIndices(mIndices);
+    glBindBuffer(GL_ARRAY_BUFFER, vbo);
+    glBufferData(GL_ARRAY_BUFFER, mVertices.size() * sizeof(float), mVertices.data(), GL_STATIC_DRAW);
 
-    mGeometry->prepare();
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+
+    mShader = new Shader("color");
+
+    if(!mShader->init()) {
+        return false;
+    }
 
     return Game::init();
 }
 
 void DemoGame::shutdown()
 {
-    delete mGeometry;
-    mGeometry = nullptr;
-
-    delete [] mVertices;
-    mVertices = nullptr;
-
-    delete []  mIndices;
-    mIndices = nullptr;
+    delete mShader;
+    mShader = nullptr;
 }
 
 void DemoGame::render()
 {
-    glClearColor(0.1, 0.5, 0.4, 1.0);
-
-    glBindVertexArray(mGeometry->vao());
-
     Game::render();
+
+    glUseProgram(mShader->programId());
+    glBindVertexArray(mVAO);
+
+    glDrawArrays(GL_TRIANGLES, 0, 3);
 }

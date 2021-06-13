@@ -4,32 +4,20 @@
 
 #include <fstream>
 
-Shader::Shader()
+Shader::Shader(std::string name)
 {
-
+    mName = name;
 }
 
 bool Shader::init()
 {
-    return true;
-}
-
-void Shader::shutdown()
-{
-    glDeleteProgram(programId());
-}
-
-bool Shader::fromSource(const char *filename, Shader *shader)
-{
-    std::string name(filename);
-
-    std::ifstream vertFile (name.append(".vert"));
+    std::ifstream vertFile ("assets/shaders/" + mName + ".vert");
 
     std::string vertSource ((std::istreambuf_iterator<char>(vertFile) ),
                             (std::istreambuf_iterator<char>()));
 
 
-    std::ifstream fragFile(name.append(".frag"));
+    std::ifstream fragFile("assets/shaders/" + mName + ".frag");
 
     std::string fragSource ((std::istreambuf_iterator<char>(fragFile) ),
                             (std::istreambuf_iterator<char>()));
@@ -65,16 +53,17 @@ bool Shader::fromSource(const char *filename, Shader *shader)
         return false;
     }
 
-    unsigned int shaderProgramId = glCreateProgram();
+    mProgramId = glCreateProgram();
 
-    glAttachShader(shaderProgramId, vertShader);
-    glAttachShader(shaderProgramId, fragShader);
-    glLinkProgram(shaderProgramId);
+    glAttachShader(mProgramId, vertShader);
+    glAttachShader(mProgramId, fragShader);
 
-    glGetProgramiv(shaderProgramId, GL_LINK_STATUS, &success);
+    glLinkProgram(mProgramId);
+
+    glGetProgramiv(mProgramId, GL_LINK_STATUS, &success);
 
     if(!success) {
-        glGetProgramInfoLog(shaderProgramId, 512, NULL, compileMsg);
+        glGetProgramInfoLog(mProgramId, 512, NULL, compileMsg);
         printf("Shader link error %s", compileMsg);
 
         return false;
@@ -83,10 +72,12 @@ bool Shader::fromSource(const char *filename, Shader *shader)
     glDeleteShader(vertShader);
     glDeleteShader(fragShader);
 
-    shader = new Shader();
-    shader->setProgramId(shaderProgramId);
-
     return true;
+}
+
+void Shader::shutdown()
+{
+    glDeleteProgram(programId());
 }
 
 int Shader::programId() const

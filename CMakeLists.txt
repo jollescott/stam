@@ -5,15 +5,15 @@ project(stam LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-add_subdirectory(3rdparty/SDL)
 add_subdirectory(3rdparty/glad)
+
+find_package(SDL2 REQUIRED)
+include_directories(${SDL2_INCLUDE_DIRS})
 
 add_executable(stam main.cpp
                     application.cpp
                     game.cpp
                     demogame.cpp
-                    renderer.cpp
-                    geometry.cpp
                     shader.cpp)
 
-target_link_libraries(stam SDL2main SDL2-static glad)
+target_link_libraries(stam ${SDL2_LIBRARIES} ${CMAKE_DL_LIBS} glad)
