@@ -3,8 +3,11 @@
 
 #include <vector>
 
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+
 #include "game.h"
-#include "shader.h"
+#include "geometry.h"
 
 class DemoGame : public Game
 {
@@ -15,11 +18,9 @@ public:
     void shutdown() override;
 
     void render() override;
+    void update(double dt) override;
 private:
-    unsigned int mVAO;
-
-    Shader* mShader;
-    std::vector<float> mVertices;
+    Geometry* mGeometry;
 };
 
 #endif // DEMOGAME_H

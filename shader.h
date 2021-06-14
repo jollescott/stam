@@ -3,6 +3,9 @@
 
 #include <string>
 
+#include <glm/glm.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
 class Shader
 {
 public:
@@ -13,6 +16,8 @@ public:
 
     int programId() const;
     void setProgramId(int programId);
+
+    void setMat4(std::string name, glm::mat4 mat);
 
 private:
     std::string mName;
